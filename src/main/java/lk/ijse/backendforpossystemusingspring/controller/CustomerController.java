@@ -6,10 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.regex.Pattern;
 
 @RestController
 @RequestMapping("api/v1/customers")
@@ -27,5 +26,27 @@ public class CustomerController {
             return new ResponseEntity<>(HttpStatus.CREATED);
 
 
+    }
+
+    @PutMapping(value = "/{customerId}",consumes = MediaType.APPLICATION_JSON_VALUE)
+    public void updateCustomer(@PathVariable ("customerId") String customerId, @RequestBody CustomerDTO customerDto){
+        /*customerService.updateCustomer(customerDto);*/
+        String regexForUserID = "^C\\d{3}$\n";
+        Pattern regexPattern = Pattern.compile(regexForUserID);
+        var regexMatcher = regexPattern.matcher(customerId);
+        customerService.updateCustomer(customerId,customerDto);
+        /*try {
+            if(!regexMatcher.matches() || customerDto == null){
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+            customerService.updateCustomer(customerId,customerDto);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }catch (NoteNotFoundException e){
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }*/
     }
 }

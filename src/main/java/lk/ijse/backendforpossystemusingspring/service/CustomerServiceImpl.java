@@ -24,4 +24,9 @@ public class CustomerServiceImpl implements CustomerService{
             System.out.println("Customer not saved");
         }
     }
+
+    @Override
+    public void updateCustomer(String customerId,CustomerDTO customerDTO) {
+        customerDao.save(customerMapping.toCustomerEntity(customerDTO));
+    }
 }
