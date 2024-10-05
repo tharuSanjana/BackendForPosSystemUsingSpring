@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
 @Transactional
 public class CustomerServiceImpl implements CustomerService{
@@ -28,5 +30,15 @@ public class CustomerServiceImpl implements CustomerService{
     @Override
     public void updateCustomer(String customerId,CustomerDTO customerDTO) {
         customerDao.save(customerMapping.toCustomerEntity(customerDTO));
+    }
+
+    @Override
+    public void deleteCustomer(String customerId) {
+        Optional<CustomerEntity> foundNote = customerDao.findById(customerId);
+        if (!foundNote.isPresent()) {
+           /* throw new NoteNotFoundException("Note not found");*/
+        }else {
+            customerDao.deleteById(customerId);
+        }
     }
 }
