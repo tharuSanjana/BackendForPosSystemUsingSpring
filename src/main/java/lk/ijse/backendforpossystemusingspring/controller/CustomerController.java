@@ -1,5 +1,8 @@
 package lk.ijse.backendforpossystemusingspring.controller;
 
+import lk.ijse.backendforpossystemusingspring.customStatusCode.SelectedCustomerErrorStatus;
+import lk.ijse.backendforpossystemusingspring.dto.CustomerStatus;
+import lk.ijse.backendforpossystemusingspring.dto.SuperDTO;
 import lk.ijse.backendforpossystemusingspring.dto.impl.CustomerDTO;
 import lk.ijse.backendforpossystemusingspring.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,5 +78,20 @@ public class CustomerController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<CustomerDTO> getAllCustomers(){
         return customerService.getAllCustomers();
+    }
+
+    @GetMapping(value = "/{customerId}",produces = MediaType.APPLICATION_JSON_VALUE)
+    public CustomerStatus getSelectedCustomer(@PathVariable("customerId") String customerId){
+       /* String regexForCustomerId = "^C\\d{3}$\n";
+        Pattern regexPattern = Pattern.compile(regexForCustomerId);
+        var regexMatcher = regexPattern.matcher(customerId);
+        if (!regexMatcher.matches()) {
+            return  new SelectedCustomerErrorStatus(1,"Note ID is not valid");
+        }
+        return customerService.getSelectedCustomer(customerId);
+*/
+        return  customerService.getSelectedCustomer(customerId);
+
+
     }
 }
