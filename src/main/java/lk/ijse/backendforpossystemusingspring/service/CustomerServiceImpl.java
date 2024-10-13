@@ -6,6 +6,7 @@ import lk.ijse.backendforpossystemusingspring.dto.CustomerStatus;
 import lk.ijse.backendforpossystemusingspring.dto.SuperDTO;
 import lk.ijse.backendforpossystemusingspring.dto.impl.CustomerDTO;
 import lk.ijse.backendforpossystemusingspring.entity.impl.CustomerEntity;
+import lk.ijse.backendforpossystemusingspring.exception.DataPersistException;
 import lk.ijse.backendforpossystemusingspring.util.Mapping;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,8 +28,8 @@ public class CustomerServiceImpl implements CustomerService {
     public void saveCustomer(CustomerDTO customerDTO) {
         CustomerEntity savedCustomer = customerDao.save(customerMapping.toCustomerEntity(customerDTO));
         if (savedCustomer == null) {
-            //throw new DataPersistException("Note not saved");
-            System.out.println("Customer not saved");
+            throw new DataPersistException("Customer not saved");
+
         }
     }
 

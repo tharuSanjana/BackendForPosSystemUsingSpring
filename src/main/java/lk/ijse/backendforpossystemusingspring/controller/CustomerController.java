@@ -4,6 +4,7 @@ import lk.ijse.backendforpossystemusingspring.customStatusCode.SelectedCustomerE
 import lk.ijse.backendforpossystemusingspring.dto.CustomerStatus;
 import lk.ijse.backendforpossystemusingspring.dto.SuperDTO;
 import lk.ijse.backendforpossystemusingspring.dto.impl.CustomerDTO;
+import lk.ijse.backendforpossystemusingspring.exception.DataPersistException;
 import lk.ijse.backendforpossystemusingspring.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,8 +27,16 @@ public class CustomerController {
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> saveCustomer(@RequestBody CustomerDTO customerDto) {
 
+           /* customerService.saveCustomer(customerDto);
+            return new ResponseEntity<>(HttpStatus.CREATED);*/
+        try {
             customerService.saveCustomer(customerDto);
             return new ResponseEntity<>(HttpStatus.CREATED);
+        }catch (DataPersistException e){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
 
 
     }
@@ -82,15 +91,15 @@ public class CustomerController {
 
     @GetMapping(value = "/{customerId}",produces = MediaType.APPLICATION_JSON_VALUE)
     public CustomerStatus getSelectedCustomer(@PathVariable("customerId") String customerId){
-       /* String regexForCustomerId = "^C\\d{3}$\n";
+       /* String regexForCustomerId = "^C\\\\d{3}$";
         Pattern regexPattern = Pattern.compile(regexForCustomerId);
         var regexMatcher = regexPattern.matcher(customerId);
         if (!regexMatcher.matches()) {
             return  new SelectedCustomerErrorStatus(1,"Note ID is not valid");
         }
+        return customerService.getSelectedCustomer(customerId);*/
         return customerService.getSelectedCustomer(customerId);
-*/
-        return  customerService.getSelectedCustomer(customerId);
+
 
 
     }
