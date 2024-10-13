@@ -10,9 +10,6 @@ import org.springframework.data.annotation.Id;
 @NoArgsConstructor
 @Data
 public class ItemOrderEntity {
-   /* private String o_id;
-    private String i_id;*/
-
 @Id
 @GeneratedValue(strategy = GenerationType.IDENTITY)
  private String id;
