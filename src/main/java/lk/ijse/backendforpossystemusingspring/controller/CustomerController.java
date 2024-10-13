@@ -4,6 +4,7 @@ import lk.ijse.backendforpossystemusingspring.customStatusCode.SelectedCustomerE
 import lk.ijse.backendforpossystemusingspring.dto.CustomerStatus;
 import lk.ijse.backendforpossystemusingspring.dto.SuperDTO;
 import lk.ijse.backendforpossystemusingspring.dto.impl.CustomerDTO;
+import lk.ijse.backendforpossystemusingspring.exception.CustomerNotFoundException;
 import lk.ijse.backendforpossystemusingspring.exception.DataPersistException;
 import lk.ijse.backendforpossystemusingspring.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,46 +43,46 @@ public class CustomerController {
     }
 
     @PutMapping(value = "/{customerId}",consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void updateCustomer(@PathVariable ("customerId") String customerId, @RequestBody CustomerDTO customerDto){
+    public  ResponseEntity<Void> updateCustomer(@PathVariable ("customerId") String customerId, @RequestBody CustomerDTO customerDto){
         /*customerService.updateCustomer(customerDto);*/
         String regexForUserID = "^C\\d{3}$\n";
         Pattern regexPattern = Pattern.compile(regexForUserID);
         var regexMatcher = regexPattern.matcher(customerId);
         customerService.updateCustomer(customerId,customerDto);
-        /*try {
+        try {
             if(!regexMatcher.matches() || customerDto == null){
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             }
             customerService.updateCustomer(customerId,customerDto);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }catch (NoteNotFoundException e){
+        }catch (CustomerNotFoundException e){
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }catch (Exception e){
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }*/
+        }
     }
 
     @DeleteMapping(value = "/{customerId}")
-    public void deleteCustomer(@PathVariable ("customerId") String customerId){
+    public  ResponseEntity<Void> deleteCustomer(@PathVariable ("customerId") String customerId){
         String regexForUserID = "^C\\d{3}$\n";
         Pattern regexPattern = Pattern.compile(regexForUserID);
         var regexMatcher = regexPattern.matcher(customerId);
         customerService.deleteCustomer(customerId);
-        /*try {
+        try {
             if (!regexMatcher.matches()) {
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             }
-            noteService.deleteNote(noteId);
+            customerService.deleteCustomer(customerId);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } catch (NoteNotFoundException e) {
+        } catch (CustomerNotFoundException e) {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }*/
+        }
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
@@ -91,16 +92,13 @@ public class CustomerController {
 
     @GetMapping(value = "/{customerId}",produces = MediaType.APPLICATION_JSON_VALUE)
     public CustomerStatus getSelectedCustomer(@PathVariable("customerId") String customerId){
-       /* String regexForCustomerId = "^C\\\\d{3}$";
+       String regexForCustomerId = "^C\\d{3}$";
         Pattern regexPattern = Pattern.compile(regexForCustomerId);
         var regexMatcher = regexPattern.matcher(customerId);
         if (!regexMatcher.matches()) {
             return  new SelectedCustomerErrorStatus(1,"Note ID is not valid");
         }
-        return customerService.getSelectedCustomer(customerId);*/
         return customerService.getSelectedCustomer(customerId);
-
-
 
     }
 }

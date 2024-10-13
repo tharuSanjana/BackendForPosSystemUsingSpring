@@ -6,6 +6,7 @@ import lk.ijse.backendforpossystemusingspring.dto.CustomerStatus;
 import lk.ijse.backendforpossystemusingspring.dto.SuperDTO;
 import lk.ijse.backendforpossystemusingspring.dto.impl.CustomerDTO;
 import lk.ijse.backendforpossystemusingspring.entity.impl.CustomerEntity;
+import lk.ijse.backendforpossystemusingspring.exception.CustomerNotFoundException;
 import lk.ijse.backendforpossystemusingspring.exception.DataPersistException;
 import lk.ijse.backendforpossystemusingspring.util.Mapping;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +43,7 @@ public class CustomerServiceImpl implements CustomerService {
     public void deleteCustomer(String customerId) {
         Optional<CustomerEntity> foundNote = customerDao.findById(customerId);
         if (!foundNote.isPresent()) {
-            /* throw new NoteNotFoundException("Note not found");*/
+             throw new CustomerNotFoundException("Customer not found");
         } else {
             customerDao.deleteById(customerId);
         }
