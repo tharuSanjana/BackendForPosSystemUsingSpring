@@ -35,5 +35,6 @@ public class OrdersDTO {
     private Double balance;
     private Double cash;
     private Double discount;
+    private List<ItemOrderDTO> orderDetailsDTO;
 
 }
